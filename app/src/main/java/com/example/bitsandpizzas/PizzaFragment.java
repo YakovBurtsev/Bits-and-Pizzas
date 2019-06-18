@@ -1,6 +1,7 @@
 package com.example.bitsandpizzas;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,7 +20,7 @@ public class PizzaFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         RecyclerView pizzaRecycler = (RecyclerView) inflater.inflate(
@@ -40,6 +41,15 @@ public class PizzaFragment extends Fragment {
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         pizzaRecycler.setLayoutManager(layoutManager);
+
+        adapter.setListener(new CaptionedImagesAdapter.Listener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(getActivity(), PizzaDetailActivity.class);
+                intent.putExtra(PizzaDetailActivity.EXTRA_PIZZA_ID, position);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return pizzaRecycler;
     }
